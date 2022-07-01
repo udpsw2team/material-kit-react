@@ -7,37 +7,32 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: '',
+    path: '/dashboard/statistics',
+    icon: getIcon('eva:shopping-bag-fill'),
+  },
+  {
+    title: '',
     path: '/dashboard/app',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
-    title: 'user',
+    title: '',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
   },
   {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon('eva:file-text-fill'),
-  },
-  {
-    title: 'login',
+    title: '',
     path: '/login',
     icon: getIcon('eva:lock-fill'),
   },
   {
-    title: 'register',
+    title: '',
     path: '/register',
     icon: getIcon('eva:person-add-fill'),
   },
   {
-    title: 'Not found',
+    title: '',
     path: '/404',
     icon: getIcon('eva:alert-triangle-fill'),
   },

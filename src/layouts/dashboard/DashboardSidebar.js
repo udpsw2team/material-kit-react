@@ -5,7 +5,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
 // mock
-import account from '../../_mock/account';
+// import account from '../../_mock/account';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // components
@@ -17,7 +17,7 @@ import navConfig from './NavConfig';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 280;
+const DRAWER_WIDTH = 70;
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
@@ -26,13 +26,13 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12],
-}));
+// const AccountStyle = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   alignItems: 'center',
+//   padding: theme.spacing(2, 2.5),
+//   borderRadius: Number(theme.shape.borderRadius) * 1.5,
+//   backgroundColor: theme.palette.grey[500_12],
+// }));
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +66,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
-          <AccountStyle>
+          {/* <AccountStyle>
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
@@ -76,7 +76,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 {account.role}
               </Typography>
             </Box>
-          </AccountStyle>
+          </AccountStyle> */}
         </Link>
       </Box>
 
@@ -86,7 +86,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
+          {/* <Box
             component="img"
             src="/static/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
@@ -103,7 +103,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
           <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
             Upgrade to Pro
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </Scrollbar>

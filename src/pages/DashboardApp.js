@@ -1,7 +1,14 @@
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Box } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import RoomIcon from '@mui/icons-material/Room';
+
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -20,31 +27,108 @@ import {
 
 // ----------------------------------------------------------------------
 
+const core1 = {
+  tokenId: 7,
+  name: 'First Core',
+  licenses: [{
+    code: '1486',
+    name: 'Count',
+    channels: 100,
+    usingChannels: 10
+  },{
+    code: '1901',
+    name: 'Presence Enterprise',
+    channels: 200,
+    usingChannels: 40
+  },{
+    code: '1984',
+    name: 'Pro Enterprise',
+    channels: 150,
+    usingChannels: 9
+  },{
+    code: '1987',
+    name: 'ProAI Enterprise',
+    channels: 100,
+    usingChannels: 99
+  }]
+};
+
+const core2 = {
+  tokenId: 7,
+  name: 'Second Core',
+  licenses: [{
+    code: '1486',
+    name: 'Count',
+    channels: 100,
+    usingChannels: 10
+  }]
+};
+const core3 = core2;
+const core4 = core2;
+
 export default function DashboardApp() {
   const theme = useTheme();
 
   return (
-    <Page title="Dashboard">
-      <Container maxWidth="xl">
+    <Page title="Dashboard1" style={{display: 'flex', flex:1, flexDirection: 'row'}}>
+      <Container style={{display: 'flex', flex: 1, flexDirection: 'row', border: '1px solid', padding: '1px', width: 300}}>
+        <Box>
+          <nav aria-label="main mailbox folders">
+            <List style={{width: '100%'}}>
+              {/* <Divider /> */}
+              <ListItem disablePadding style={{padding:0}}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <RoomIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <span style={{fontSize:'0.8rem'}}>"Site1111111111"</span>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <RoomIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <span style={{fontSize:'0.8rem'}}>"Site2"</span>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <RoomIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <span style={{fontSize:'0.8rem'}}>"Site2"</span>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </nav>
+        </Box>
+      </Container>
+      <Container maxWidth="xl" style={{}}>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          What???
         </Typography>
-
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={7} sm={6} md={3}>
+            <AppWidgetSummary title={core1.name} licenses={core1} icon={'ant-design:android-filled'} />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+          <Grid item xs={7} sm={6} md={3}>
+            <AppWidgetSummary title={core2.name} licenses={core2} icon={'ant-design:android-filled'} />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+          <Grid item xs={7} sm={6} md={3}>
+            <AppWidgetSummary title={core3.name} licenses={core2} icon={'ant-design:android-filled'} />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+          <Grid item xs={7} sm={6} md={3}>
+            <AppWidgetSummary title={core4.name} licenses={core4} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
