@@ -1,26 +1,13 @@
 // @mui
 import PropTypes from 'prop-types';
-import { alpha, styled } from '@mui/material/styles';
 import {
   Card,
   CardHeader,
   CardContent,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  ListItemIcon,
   Box,
-  Grid,
-  Paper,
   Button,
-  ButtonGroup,
-  Typography
+  ButtonGroup
 } from '@mui/material';
-// utils
-import DevicesIcon from '@mui/icons-material/Devices';
-import InboxIcon from '@mui/icons-material/Inbox';
-import { fShortenNumber } from '../../../utils/formatNumber';
 
 AppWidgetSummary.propTypes = {
   color: PropTypes.string,
@@ -29,15 +16,6 @@ AppWidgetSummary.propTypes = {
   licenses: PropTypes.object,
   sx: PropTypes.object,
 };
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  backgroundImage: `linear-gradient(to left, white, #eee 75%, red 75%)`
-}));
 
 const LicenseList = (props) => {
   console.log(`---------- : ${  JSON.stringify(props)}`);
