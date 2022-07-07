@@ -18,10 +18,8 @@ AppWidgetSummary.propTypes = {
 };
 
 const LicenseList = (props) => {
-  console.log(`---------- : ${  JSON.stringify(props)}`);
   const { items } = props;
   const arr = items.licenses;
-  console.log(`list : ${JSON.stringify(arr)}`);
   const licenseCodes = arr.map((item) => 
     <Button key={item.code.toString()} value={item.name} style={{
       fontSize: '12px',

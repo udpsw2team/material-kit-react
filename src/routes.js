@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -13,13 +14,14 @@ import DashboardApp from './pages/DashboardApp';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const [locale, setLocale] = useState('en');
   return useRoutes([
     {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
         { path: 'statistics', element: <Products /> },
-        { path: 'app', element: <DashboardApp /> },
+        { path: 'app', element: <DashboardApp setLocale={setLocale}/> },
         { path: 'user', element: <User /> }
       ],
     },

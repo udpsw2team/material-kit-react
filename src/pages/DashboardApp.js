@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -12,6 +13,8 @@ import RoomIcon from '@mui/icons-material/Room';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
+import Sidebar from '../components/Sidebar';
+
 // sections
 import {
   AppTasks,
@@ -66,49 +69,40 @@ const core2 = {
 const core3 = core2;
 const core4 = core2;
 
-export default function DashboardApp() {
+export default function DashboardApp({ setLocale }) {
   const theme = useTheme();
+  const [rtl, setRtl] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [image, setImage] = useState(true);
+  const [toggled, setToggled] = useState(false);
+
+  const handleCollapsedChange = (checked) => {
+    setCollapsed(checked);
+  };
+
+  // const handleRtlChange = (checked) => {
+  //   setRtl(checked);
+  //   setLocale(checked ? 'ar' : 'en');
+  // };
+  // const handleImageChange = (checked) => {
+  //   setImage(checked);
+  // };
+
+  const handleToggleSidebar = (value) => {
+    setToggled(value);
+  };
 
   return (
     <Page title="Dashboard1" style={{display: 'flex', flex:1, flexDirection: 'row'}}>
       <Container style={{display: 'flex', flex: 1, flexDirection: 'row', border: '1px solid', padding: '1px', width: 300}}>
-        <Box>
-          <nav aria-label="main mailbox folders">
-            <List style={{width: '100%'}}>
-              {/* <Divider /> */}
-              <ListItem disablePadding style={{padding:0}}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <RoomIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <span style={{fontSize:'0.8rem'}}>"Site1111111111"</span>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <RoomIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <span style={{fontSize:'0.8rem'}}>"Site2"</span>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <RoomIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <span style={{fontSize:'0.8rem'}}>"Site2"</span>
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </nav>
-        </Box>
+        <Sidebar disablePadding
+          image={image}
+          collapsed={collapsed}
+          rtl={rtl}
+          toggled={toggled}
+          handleToggleSidebar={handleToggleSidebar}
+          handleCollapsedChange={handleCollapsedChange}
+        />
       </Container>
       <Container maxWidth="xl" style={{}}>
         <Typography variant="h4" sx={{ mb: 5 }}>

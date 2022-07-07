@@ -59,16 +59,7 @@ const DELETE_USER_REQUEST = 'DELETE_USER_REQUEST'
 const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS'
 const DELETE_USER_FAILED = 'DELETE_USER_FAILED'
 
-// const DOMAIN = `https://vca-api.uverifier.com/api/v1/`
-// let AuthToken = '';
-
-// let requestOptions = {
-// 	headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + AuthToken },
-// 	credentials: 'include'
-// };
-
 const DOMAIN = authEnv._DOMAIN
-// let requestOptions = authEnv._requestOptions;
 
 function setReqMethodOption(method) {
 	const reqOptions = _.cloneDeep(authEnv.getRequestOption());
@@ -81,7 +72,7 @@ function addTodo(text) {
 	return { type: ADD_TODO, text };
 }
 
-function addTodo2(text) {
+function addTodo2() {
 	return (dispatch) => fetch("../api/add.json").then(
 			res => res.json().then(data => dispatch(addTodo(data.status)))
 		);

@@ -13,10 +13,8 @@ let userInfo = {};
 
 const _requestOptions = {
 	headers: {
-		'Content-Type': 'application/json',
-		// 'Authorization': 'Bearer ' + AuthToken 
-	},
-	// credentials: 'include'
+		'Content-Type': 'application/json'
+	}
 };
 
 function setAuthToken(authToken) {
@@ -29,7 +27,7 @@ function setAuthToken(authToken) {
 function setReqAuthOptions(authToken) {
 	const headers = {
 		'Content-Type': 'application/json',
-		'Authorization': `Bearer ${  authToken}`
+		'Authorization': `Bearer ${authToken}`
 	};
 	_requestOptions.headers = headers
 	// _requestOptions.credentials = 'include'
@@ -45,8 +43,10 @@ function getAuthToken() {
 }
 
 function setUserInfo(data) {
+	console.log('setUserInfo');
 	userInfo = data.attributes || {};
 	if (userInfo['custom:customerId']) userInfo.customerId = userInfo['custom:customerId'];
+	console.log(`setUserInfo-2 : ${JSON.stringify(userInfo)}`);
 	return (dispatch) => {
 		dispatch({ type: SET_ME_INFO, data: userInfo })
 	}

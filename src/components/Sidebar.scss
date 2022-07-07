@@ -1,0 +1,188 @@
+// @import '~react-pro-sidebar/dist/scss/styles.scss';
+$primaryColor: #cc1417;
+$primaryColorLighter: hsl(359, 82%, 64%);
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item .pro-inner-item {
+    padding: 8px 15px 8px 15px !important;
+}
+.pro-sidebar.collapsed .pro-menu > ul > .pro-menu-item.pro-sub-menu > .pro-inner-list-item > .popper-inner {
+    padding-left: 0px !important;
+    background: hsl(210, 60%, 98%) !important;
+}
+.pro-inner-list-item {
+    padding-right: 24px;
+    box-sizing: border-box;
+    .search-input {
+        width: 100%;
+    }
+}
+.pro-menu-item {
+    &.selected {
+        color: dodgerblue;
+    }
+}
+.sidebar-btn-wrapper {
+    cursor: pointer;
+}
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
+    position: initial !important;
+}
+
+.side-header {
+    padding: 14px 24px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: noWrap;
+}
+.logotext{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 46px;
+    .email {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        font-size: 14px;
+        padding: 0 24px;
+        color: #000;
+        font-weight: bold;
+    }
+    img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 40px;
+    }
+} 
+
+.closemenu {
+    color: #000;
+    position: absolute;
+    right: -7px;
+    z-index: 9999;
+    line-height: 20px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 22px;
+    top: 35px;
+    cursor: pointer;
+}
+.btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: dodgerblue;
+    color: #fff;
+    cursor: pointer;
+    span {
+        margin-left: 5px;
+    }
+    &:hover {
+        -moz-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+        -webkit-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+    }
+}
+
+//CREATE SITE MODAL
+.Modal {
+    position: absolute;
+    min-width: 600px;
+    min-height: 400px;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 5px;
+    .modal-title {
+        display: flex;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 20px;
+        border-bottom: 1px solid hsla(0,0%,0%,.1);
+    }
+    .modal-close-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 4px;
+        cursor: pointer;
+    }
+    .modal-contents {
+        padding: 20px;
+        .modal-item {
+            margin-bottom: 20px;
+            .modal-label {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+            .modal-content {
+                font-size: 14px;
+                margin-bottom: 8px;
+                input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .modal-btn-area {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px;
+        .btn {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid hsla(0,0%,0%,.1);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            &.btn-primary {
+                background-color: $primaryColor;
+                color: #fff;
+            }
+            &.btn-white {
+                background-color: #fff;
+                color: #000;
+            }
+            &:hover {
+                -moz-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+                -webkit-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+                box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+}
+.Overlay {
+    position: fixed;
+    inset: 0px;
+    z-index: 1010;
+    background: hsla(0, 0%, 80%, 0.72);
+    backdrop-filter: blur(2px);
+}
+
+.site-list {
+    max-height: 250px;
+    overflow-y: overlay;
+}
+
+  
+@media only screen and (max-width: 720px) {
+    html {
+      overflow: hidden;
+    }
+}
