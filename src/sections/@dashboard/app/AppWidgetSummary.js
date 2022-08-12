@@ -1,4 +1,5 @@
 // @mui
+import React from "react";
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -10,23 +11,28 @@ import {
 } from '@mui/material';
 
 AppWidgetSummary.propTypes = {
-  color: PropTypes.string,
-  icon: PropTypes.string,
   title: PropTypes.string.isRequired,
-  licenses: PropTypes.object,
-  sx: PropTypes.object,
+  licenses: PropTypes.array
 };
 
-const LicenseList = (props) => {
+const Checkouts = (props) => {
   const { items } = props;
-  const arr = items.licenses;
+  console.log(`props : ${JSON.stringify(props)}`);
+  console.log(`items : ${JSON.stringify(items)}`);
+  const arr = items;
+  if (arr.length === 0) {
+    return (
+      <ButtonGroup orientation="vertical" aria-label="vertical contained button group" />
+    )
+  }
   const licenseCodes = arr.map((item) => 
-    <Button key={item.code.toString()} value={item.name} style={{
+    <Button key={item.licenseCode.toString()} value={item.licenseCode} style={{
       fontSize: '12px',
-      backgroundImage: `linear-gradient(to left, white, #eee ${100 - (item.channels / item.usingChannels)}%, RGB(223,121,112) ${100 - (item.channels / item.usingChannels)}%)`,
+      color: 'RGB(24,155,255)',
+      backgroundImage: `linear-gradient(to left, white, #eee ${item.channels}ch, RGB(230,247,255) ${item.channels}ch)`,
       width: '100%'
     }}>
-      {`${item.name}(${item.usingChannels}/${item.channels})`}
+      {`${item.licenseCodeName}(${item.channels}/${item.totalChannels})`}
     </Button>
   );
   return (
@@ -36,23 +42,21 @@ const LicenseList = (props) => {
   );
 };
 
-LicenseList.propTypes = {
-  items: PropTypes.object
+Checkouts.propTypes = {
+  items: PropTypes.array
 };
 
-export default function AppWidgetSummary({ title, licenses, icon, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummary({ title, licenses, quota }) {
   return (
     <Card
       sx={{
         height: 240,
-        direction: 'rti',
         boxShadow: 0,
         textAlign: 'center',
-        color: (theme) => theme.palette[color].darker,
-        bgcolor: (theme) => theme.palette[color].lighter,
-        ...sx,
+        border: '1px solid RGB(230,235,241)',
+        // color: (theme) => theme.palette[color].darker,
+        bgcolor: 'white'
       }}
-      {...other}
     >
       <CardHeader title={title}
         style={{
@@ -60,11 +64,14 @@ export default function AppWidgetSummary({ title, licenses, icon, color = 'prima
           top: 0,
           textAlign: 'left',
           margin: 0,
-          padding: 4
+          padding: 4,
+          width: '100%'
         }}/>
       <CardContent style={{padding: '0px'}}>
         <Box>
-          <LicenseList items={licenses}/>
+          <Checkouts
+            items={licenses}
+          />
         </Box>
       </CardContent>
     </Card>

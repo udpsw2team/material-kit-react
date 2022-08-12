@@ -18,7 +18,7 @@ function setReqMethodOption(method) {
 // Customer API
 function getDashboards() {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }dashboards`
+	const url = `${DOMAIN}dashboards`
 	// const url = 'https://console-api.uverifier.com/console/v1/sites'
 	return (dispatch) => {
 		dispatch({ type: GET_DASHBOARDS_REQUEST })

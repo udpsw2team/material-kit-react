@@ -42,6 +42,12 @@ const GET_LICENSE_CODES_FAILED = 'GET_LICENSE_CODES_FAILED'
 const GET_LICENSE_CODE_CONNECTION_REQUEST = 'GET_LICENSE_CODE_CONNECTION_REQUEST'
 const GET_LICENSE_CODE_CONNECTION_SUCCESS = 'GET_LICENSE_CODE_CONNECTION_SUCCESS'
 const GET_LICENSE_CODE_CONNECTION_FAILED = 'GET_LICENSE_CODE_CONNECTION_FAILED'
+const GET_SITE_CORE_CONNECTIONS_REQUEST = 'GET_SITE_CORE_CONNECTIONS_REQUEST'
+const GET_SITE_CORE_CONNECTIONS_SUCCESS = 'GET_SITE_CORE_CONNECTIONS_SUCCESS'
+const GET_SITE_CORE_CONNECTIONS_FAILED = 'GET_SITE_CORE_CONNECTIONS_FAILED'
+const GET_SITE_CORE_CONNECTION_CHECKOUTS_REQUEST = 'GET_SITE_CORE_CONNECTION_CHECKOUTS_REQUEST'
+const GET_SITE_CORE_CONNECTION_CHECKOUTS_SUCCESS = 'GET_SITE_CORE_CONNECTION_CHECKOUTS_SUCCESS'
+const GET_SITE_CORE_CONNECTION_CHECKOUTS_FAILED = 'GET_SITE_CORE_CONNECTION_CHECKOUTS_FAILED'
 
 const GET_ME_REQUEST = 'GET_ME_REQUEST'
 const GET_ME_SUCCESS = 'GET_ME_SUCCESS'
@@ -92,18 +98,18 @@ function complete2(data2) {
 // Site API
 function getSites() {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites`
+	const url = `${DOMAIN}sites`
 	return (dispatch) => {
 		dispatch({ type: GET_SITES_REQUEST })
 		return fetch(url, requestOptions)
 			.then(res => res.json())
 			.then((data) => dispatch({ type: GET_SITES_SUCCESS, data }))
-			.catch((err) => dispatch({ type: GET_SITES_FAILED }))
+			.catch(() => dispatch({ type: GET_SITES_FAILED }))
 	}
 }
 function getSite(siteId) {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites/${siteId}`
+	const url = `${DOMAIN}sites/${siteId}`
 	return fetch(url, requestOptions)
 		.then(res => res.json())
 		.then((data) => console.log('Get Site', data))
@@ -112,7 +118,7 @@ function getSite(siteId) {
 function createSite(data) {
 	const requestOptions = setReqMethodOption('POST');
 	requestOptions.body = JSON.stringify(data);
-	const url = `${DOMAIN  }sites`
+	const url = `${DOMAIN}sites`
 	return (dispatch) => {
 		dispatch({ type: CREATE_SITE_REQUEST })
 		return fetch(url, requestOptions)
@@ -122,13 +128,13 @@ function createSite(data) {
 			})
 			.then(res => res.json())
 			.then((data) => dispatch({ type: CREATE_SITE_SUCCESS, data }))
-			.catch((err) => dispatch({ type: CREATE_SITE_FAILED }))
+			.catch(() => dispatch({ type: CREATE_SITE_FAILED }))
 	}
 }
 function updateSite(siteId, data) {
 	const requestOptions = setReqMethodOption('PUT');
 	requestOptions.body = JSON.stringify(data);
-	const url = `${DOMAIN  }sites/${siteId}`;
+	const url = `${DOMAIN}sites/${siteId}`;
 	return (dispatch) => {
 		dispatch({ type: UPDATE_SITE_REQUEST })
 		return fetch(url, requestOptions)
@@ -143,7 +149,7 @@ function updateSite(siteId, data) {
 }
 function deleteSite(siteId) {
 	const requestOptions = setReqMethodOption('DELETE');
-	const url = `${DOMAIN  }sites/${siteId}`
+	const url = `${DOMAIN}sites/${siteId}`
 	return (dispatch) => {
 		dispatch({ type: DELETE_SITE_REQUEST })
 		return fetch(url, requestOptions)
@@ -157,10 +163,34 @@ function deleteSite(siteId) {
 	}
 }
 
+const getSiteCoreConnections = (siteId) => {
+	const requestOptions = setReqMethodOption('GET');
+	const url = `${DOMAIN}sites/${siteId}/core-connections`
+	return (dispatch) => {
+		dispatch({ type: GET_SITE_CORE_CONNECTIONS_REQUEST })
+		return fetch(url, requestOptions)
+			.then(res => res.json())
+			.then((data) => dispatch({ type: GET_SITE_CORE_CONNECTIONS_SUCCESS, data }))
+			.catch(() => dispatch({ type: GET_SITE_CORE_CONNECTIONS_FAILED }))
+	}
+}
+
+const getSiteCoreConnectionCheckouts = (siteId, connectionId) => {
+	const requestOptions = setReqMethodOption('GET');
+	const url = `${DOMAIN}sites/${siteId}/core-connections/${connectionId}/checkouts`
+	return (dispatch) => {
+		dispatch({ type: GET_SITE_CORE_CONNECTION_CHECKOUTS_REQUEST })
+		return fetch(url, requestOptions)
+			.then(res => res.json())
+			.then((data) => dispatch({ type: GET_SITE_CORE_CONNECTION_CHECKOUTS_SUCCESS, data }))
+			.catch(() => dispatch({ type: GET_SITE_CORE_CONNECTION_CHECKOUTS_FAILED }))
+	}
+}
+
 // License API
 function getLicenses(siteId) {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites/${siteId}/licenses`
+	const url = `${DOMAIN}sites/${siteId}/licenses`
 	return (dispatch) => {
 		dispatch({ type: GET_LICENSES_REQUEST })
 		return fetch(url, requestOptions)
@@ -171,7 +201,7 @@ function getLicenses(siteId) {
 }
 function getLicense(siteId, licenseId, licenseCode) {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites/${siteId}/licenses/${licenseId}/codes/${licenseCode}`
+	const url = `${DOMAIN}sites/${siteId}/licenses/${licenseId}/codes/${licenseCode}`
 	return (dispatch) => {
 		dispatch({ type: GET_LICENSE_REQUEST })
 		return fetch(url, requestOptions)
@@ -183,7 +213,7 @@ function getLicense(siteId, licenseId, licenseCode) {
 function createLicense(siteId, data) {
 	const requestOptions = setReqMethodOption('POST');
 	requestOptions.body = JSON.stringify(data);
-	const url = `${DOMAIN  }sites/${siteId}/licenses`
+	const url = `${DOMAIN}sites/${siteId}/licenses`
 	return (dispatch) => {
 		dispatch({ type: CREATE_LICENSE_REQUEST })
 		return fetch(url, requestOptions)
@@ -199,7 +229,7 @@ function createLicense(siteId, data) {
 function updateLicense(siteId, licenseId, licenseCode, data) {
 	const requestOptions = setReqMethodOption('PUT');
 	requestOptions.body = JSON.stringify(data);
-	const url = `${DOMAIN  }sites/${siteId}/licenses/${licenseId}/codes/${licenseCode}`;
+	const url = `${DOMAIN}sites/${siteId}/licenses/${licenseId}/codes/${licenseCode}`;
 	return (dispatch) => {
 		dispatch({ type: UPDATE_LICENSE_REQUEST })
 		return fetch(url, requestOptions)
@@ -214,7 +244,7 @@ function updateLicense(siteId, licenseId, licenseCode, data) {
 }
 function deleteLicense(siteId, licenseId, licenseCode) {
 	const requestOptions = setReqMethodOption('DELETE');
-	const url = `${DOMAIN  }sites/${siteId}/licenses/${licenseId}/codes/${licenseCode}`
+	const url = `${DOMAIN}sites/${siteId}/licenses/${licenseId}/codes/${licenseCode}`
 	return (dispatch) => {
 		dispatch({ type: DELETE_LICENSE_REQUEST })
 		return fetch(url, requestOptions)
@@ -230,7 +260,7 @@ function deleteLicense(siteId, licenseId, licenseCode) {
 
 function getLicenseCodes(siteId) {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites/${siteId}/licenseCodes`
+	const url = `${DOMAIN}sites/${siteId}/licenseCodes`
 	return (dispatch) => {
 		dispatch({ type: GET_LICENSE_CODES_REQUEST })
 		return fetch(url, requestOptions)
@@ -242,7 +272,7 @@ function getLicenseCodes(siteId) {
 
 function getLicenseCodeConnection(siteId, tokenId, licenseCode) {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites/${siteId}/licenses/${tokenId}/codes/${licenseCode}/connects`
+	const url = `${DOMAIN}sites/${siteId}/licenses/${tokenId}/codes/${licenseCode}/connects`
 	return (dispatch) => {
 		dispatch({ type: GET_LICENSE_CODE_CONNECTION_REQUEST })
 		return fetch(url, requestOptions)
@@ -254,7 +284,7 @@ function getLicenseCodeConnection(siteId, tokenId, licenseCode) {
 
 function fetchLicenseCodeConnection(siteId, tokenId, licenseCode) {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }sites/${siteId}/licenses/${tokenId}/codes/${licenseCode}/connects`
+	const url = `${DOMAIN}sites/${siteId}/licenses/${tokenId}/codes/${licenseCode}/connects`
 	return fetch(url, requestOptions)
 		.then(res => res.json())
 		.catch((err) => err)
@@ -267,7 +297,7 @@ function toggleLicense(licenseId) {
 // User API
 function getMe() {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }members/me`
+	const url = `${DOMAIN}members/me`
 	return (dispatch) => {
 		dispatch({ type: GET_ME_REQUEST })
 		return fetch(url, requestOptions)
@@ -279,7 +309,7 @@ function getMe() {
 
 function getUsers() {
 	const requestOptions = setReqMethodOption('GET');
-	const url = `${DOMAIN  }members`
+	const url = `${DOMAIN}members`
 	return (dispatch) => {
 		dispatch({ type: GET_USERS_REQUEST })
 		return fetch(url, requestOptions)
@@ -292,7 +322,7 @@ function getUsers() {
 function createUser(bodyData) {
 	const requestOptions = setReqMethodOption('POST');
 	requestOptions.body = JSON.stringify(bodyData);
-	const url = `${DOMAIN  }members`
+	const url = `${DOMAIN}members`
 	return (dispatch) => {
 		dispatch({ type: CREATE_USER_REQUEST })
 		return fetch(url, requestOptions)
@@ -309,7 +339,7 @@ function createUser(bodyData) {
 function updateUser(bodyData) {
 	const requestOptions = setReqMethodOption('PUT');
 	requestOptions.body = JSON.stringify(bodyData);
-	const url = `${DOMAIN  }members`
+	const url = `${DOMAIN}members`
 	return (dispatch) => {
 		dispatch({ type: UPDATE_USER_REQUEST })
 		return fetch(url, requestOptions)
@@ -330,7 +360,7 @@ function updateUser(bodyData) {
 function deleteUser(bodyData) {
 	const requestOptions = setReqMethodOption('DELETE');
 	requestOptions.body = JSON.stringify(bodyData);
-	const url = `${DOMAIN  }members`
+	const url = `${DOMAIN}members`
 	return (dispatch) => {
 		dispatch({ type: DELETE_USER_REQUEST })
 		return fetch(url, requestOptions)
@@ -386,6 +416,12 @@ export {
 	GET_LICENSE_CODE_CONNECTION_REQUEST,
 	GET_LICENSE_CODE_CONNECTION_SUCCESS,
 	GET_LICENSE_CODE_CONNECTION_FAILED,
+	GET_SITE_CORE_CONNECTIONS_REQUEST,
+	GET_SITE_CORE_CONNECTIONS_SUCCESS,
+	GET_SITE_CORE_CONNECTIONS_FAILED,
+  GET_SITE_CORE_CONNECTION_CHECKOUTS_REQUEST,
+	GET_SITE_CORE_CONNECTION_CHECKOUTS_SUCCESS,
+	GET_SITE_CORE_CONNECTION_CHECKOUTS_FAILED,
 	GET_ME_REQUEST,
 	GET_ME_SUCCESS,
 	GET_ME_FAILED,
@@ -410,6 +446,8 @@ export {
 	createSite,
 	updateSite,
 	deleteSite,
+	getSiteCoreConnections,
+	getSiteCoreConnectionCheckouts,
 	getLicenses,
 	getLicense,
 	createLicense,

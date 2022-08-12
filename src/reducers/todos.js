@@ -10,7 +10,10 @@ const { GET_SITES_REQUEST, GET_SITES_SUCCESS, GET_SITES_FAILED,
   UPDATE_LICENSE_REQUEST, UPDATE_LICENSE_SUCCESS, UPDATE_LICENSE_FAILED,
   DELETE_LICENSE_REQUEST, DELETE_LICENSE_SUCCESS, DELETE_LICENSE_FAILED,
   DELETE_SITE_REQUEST, DELETE_SITE_SUCCESS, DELETE_SITE_FAILED,
-  GET_LICENSE_CODE_CONNECTION_REQUEST, GET_LICENSE_CODE_CONNECTION_SUCCESS, GET_LICENSE_CODE_CONNECTION_FAILED } = todoAction.todo;
+  GET_LICENSE_CODE_CONNECTION_REQUEST, GET_LICENSE_CODE_CONNECTION_SUCCESS, GET_LICENSE_CODE_CONNECTION_FAILED,
+  GET_SITE_CORE_CONNECTIONS_REQUEST, GET_SITE_CORE_CONNECTIONS_SUCCESS, GET_SITE_CORE_CONNECTIONS_FAILED,
+  GET_SITE_CORE_CONNECTION_CHECKOUTS_REQUEST, GET_SITE_CORE_CONNECTION_CHECKOUTS_SUCCESS, GET_SITE_CORE_CONNECTION_CHECKOUTS_FAILED
+ } = todoAction.todo;
 
 const initialState = {
   curSite: null,
@@ -24,6 +27,9 @@ const initialState = {
   lastCreatedLicense: {},
   checkouts: [],
   curLicenseCodeConnection: [],
+  siteCoreConnections: [],
+  siteCoreConnectionCheckouts: [],
+  
   //  site status
   getSitesStatus: null,
   createSiteStatus: null,
@@ -35,6 +41,8 @@ const initialState = {
   updateLicenseStatus: null,
   deleteLicenseStatus: null,
   getLicenseCodeConnectionState: null,
+  getSiteCoreConnectionsStatus: null,
+  getSiteCoreConnectionCheckoutsStatus: null,
   authToken: null,
 }
 
@@ -188,6 +196,32 @@ const siteApi = (state = initialState, action) => {
       }
     case GET_LICENSE_CODE_CONNECTION_FAILED:
       return { ...state, getLicenseCodeConnectionState: -1 }
+    case GET_SITE_CORE_CONNECTIONS_REQUEST:
+      return { ...state, getSiteCoreConnectionsStatus: 0 }
+    case GET_SITE_CORE_CONNECTIONS_SUCCESS:
+      {
+        const siteCoreConnections = action.data;
+        return {
+          ...state,
+          siteCoreConnections,
+          getSiteCoreConnectionsStatus: 1
+        }
+      }
+    case GET_SITE_CORE_CONNECTIONS_FAILED:
+      return { ...state, getSiteCoreConnectionsStatus: -1 }
+    case GET_SITE_CORE_CONNECTION_CHECKOUTS_REQUEST:
+      return { ...state, getSiteCoreConnectionCheckoutsStatus: -1}
+    case GET_SITE_CORE_CONNECTION_CHECKOUTS_SUCCESS:
+      {
+        const siteCoreConnectionCheckouts = action.data;
+        return {
+          ...state,
+          siteCoreConnectionCheckouts,
+          getSiteCoreConnectionCheckoutsStatus: 1
+        }
+      }
+    case GET_SITE_CORE_CONNECTION_CHECKOUTS_FAILED:
+      return { ...state, getSiteCoreConnectionCheckoutsStatus: 0}
     default:
       return state;
   }

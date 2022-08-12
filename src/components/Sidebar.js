@@ -2,7 +2,7 @@ import './Sidebar.scss';
 import { IoClose } from "react-icons/io5";
 // import 'react-pro-sidebar/dist/css/styles.css';
 import { connect } from "react-redux";
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { Hub } from "@aws-amplify/core";
 import Modal from 'react-modal';
@@ -22,7 +22,7 @@ import {
   createSite,
   getMe
 } from '../actions/todo';
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
+
 Modal.setAppElement('#root');
 
 
@@ -51,12 +51,13 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // collapsed: this.props.collapsed,
       showModal: false,
       newSiteName: '',
       newSiteAddress1: '',
       newSiteAddress2: '',
       isLoading: false,
+      selectedIdx: 0,
+      siteInfo: {},
       toastOptions: {
         position: "bottom-center",
         autoClose: 5000,
@@ -67,7 +68,6 @@ class Sidebar extends Component {
         progress: undefined,
       },
       userInfo: {},
-      // selectedSiteId: null,
       filteredSites: this.props.sites,
       siteSearchTxt: '',
     }
@@ -76,6 +76,7 @@ class Sidebar extends Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onClickSiteList = this.onClickSiteList.bind(this);
   }
 
   componentDidMount() {
@@ -143,9 +144,14 @@ class Sidebar extends Component {
     event.preventDefault();
   }
 
-  static onClickSiteList() {
-    console.log('onClickSiteList');
+  onClickSiteList = (index, site) => {
+    console.log(`onClickSiteList : ${index} - ${JSON.stringify(site)}`);
+    this.setState({selectedIdx: index});
   }
+
+  setSite() {
+    this.setSite({ siteInfo: this.state.filteredSites[this.selectedIdx] });
+  };
 
   toggleCollapse() {
     this.props.handleCollapsedChange(!this.props.collapsed)
@@ -157,7 +163,11 @@ class Sidebar extends Component {
         <Box disablePadding
         visible={this.state.isLoading}
         >
-          <List style={{left: '0px', width: '100%'}} dense>
+          <List
+          style={{left: '0px', width: '100%'}}
+          dense
+          sx={{bgcolor: 'background.paper' }}
+          >
             <ListItem>
               <ListItemButton>
                 <PersonRoundedIcon />
@@ -165,25 +175,21 @@ class Sidebar extends Component {
               </ListItemButton>
             </ListItem>
             {
-              this.state.filteredSites.map((site) => (
-                <ListItem key={`menu-site-${site.id}`} title={site.address1}>
-                  <ListItemButton
-                  selected={0}
-                  onClick={this.onClickSiteList}>
+              this.state.filteredSites.map((site, index) => (
+                <ListItem
+                key={`menu-site-${site.id}`}
+                title={site.address1}
+                data-index={index}
+                selected={this.state.selectedIdx === index}
+                onClick={() => this.onClickSiteList(index, site)}>
+                  <ListItemButton>
                     <ListItemIcon sx={{left: '0px', minWidth: '20px'}}>
                       <LocationOnRoundedIcon fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText
                       primary={site.name || 'No Name'}
                       primaryTypographyProps={{fontSize: '0.8rem'}}
-                    >
-                      {/* <NavLink
-                        style={({ isActive }) => ({
-                            color: isActive ? "dodgerblue" : ""
-                          })}
-                        to={`/sites/${  site.id}`}>{site.name || 'No Name'}
-                      </NavLink> */}
-                    </ListItemText>
+                     />
                   </ListItemButton>
                 </ListItem>
               ))

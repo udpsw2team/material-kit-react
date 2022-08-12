@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -8,103 +8,122 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import RoomIcon from '@mui/icons-material/Room';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
+import { Auth } from 'aws-amplify';
 
 // components
+import { useSelector, useDispatch } from "react-redux";
 import Page from '../components/Page';
-import Iconify from '../components/Iconify';
-import Sidebar from '../components/Sidebar';
+import Core from '../components/Core';
 
-// sections
 import {
-  AppTasks,
-  AppNewsUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
-  AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
-} from '../sections/@dashboard/app';
-
-// ----------------------------------------------------------------------
-
-const core1 = {
-  tokenId: 7,
-  name: 'First Core',
-  licenses: [{
-    code: '1486',
-    name: 'Count',
-    channels: 100,
-    usingChannels: 10
-  },{
-    code: '1901',
-    name: 'Presence Enterprise',
-    channels: 200,
-    usingChannels: 40
-  },{
-    code: '1984',
-    name: 'Pro Enterprise',
-    channels: 150,
-    usingChannels: 9
-  },{
-    code: '1987',
-    name: 'ProAI Enterprise',
-    channels: 100,
-    usingChannels: 99
-  }]
-};
-
-const core2 = {
-  tokenId: 7,
-  name: 'Second Core',
-  licenses: [{
-    code: '1486',
-    name: 'Count',
-    channels: 100,
-    usingChannels: 10
-  }]
-};
-const core3 = core2;
-const core4 = core2;
+  getSites,
+  getMe
+} from '../actions/todo';
 
 export default function DashboardApp({ setLocale }) {
   const theme = useTheme();
-  const [rtl, setRtl] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
-  const [image, setImage] = useState(true);
-  const [toggled, setToggled] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleCollapsedChange = (checked) => {
-    setCollapsed(checked);
-  };
+  const sites = useSelector(state => state.siteApi.sites)
+  const getSitesStatus = useSelector(state => state.siteApi.getSitesStatus)
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalSite, setTotalSite] = useState(0);
 
-  // const handleRtlChange = (checked) => {
-  //   setRtl(checked);
-  //   setLocale(checked ? 'ar' : 'en');
-  // };
-  // const handleImageChange = (checked) => {
-  //   setImage(checked);
-  // };
+  const [curIndex, siteIndex] = useState(2);
+  const [isUserLoading, userLoading] = useState(false);
+  const [userInfo, authAttr] = useState({});
 
-  const handleToggleSidebar = (value) => {
-    setToggled(value);
-  };
+  const _getSites = useCallback(() => {
+    dispatch(getSites())
+  }, [dispatch]);
+
+  
+  useEffect(() => {
+    console.log('currentAuthenticatedUser');
+    Auth.currentAuthenticatedUser().then(info => {
+      console.log('authAttr');
+      console.log(JSON.stringify(info.attributes));
+      if (info) {
+        if (info.attributes) {
+          authAttr({ userInfo: info.attributes });
+          userLoading(true);
+        }
+      }
+    })
+    return () => {}      
+  },[]);
+
+  useEffect(() => {
+    _getSites();
+  }, [_getSites])
+
+  useEffect(() => {
+    setTotalSite(sites.length);
+  }, [sites])
+
+  useEffect(() => {
+    if (getSitesStatus === 0) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [getSitesStatus]);
+
+  const onClickSiteList = (index, site) => {
+    console.log(`onClickSiteList : ${index} - ${JSON.stringify(site)}`);
+    siteIndex(index);
+  }
 
   return (
-    <Page title="Dashboard1" style={{display: 'flex', flex:1, flexDirection: 'row'}}>
+    <Page theme={theme} title="Dashboard1" style={{display: 'flex', flex:1, flexDirection: 'row'}}>
       <Container style={{display: 'flex', flex: 1, flexDirection: 'row', border: '1px solid', padding: '1px', width: 300}}>
-        <Sidebar disablePadding
-          image={image}
-          collapsed={collapsed}
-          rtl={rtl}
-          toggled={toggled}
-          handleToggleSidebar={handleToggleSidebar}
-          handleCollapsedChange={handleCollapsedChange}
-        />
+        <Box
+        disablePadding
+        visible={isLoading}
+        >
+          <List
+          style={{left: '0px', width: '100%', height: '100%'}}
+          dense
+          sx={{bgcolor: 'background.paper' }}
+          >
+            <ListItem>
+              <ListItemButton>
+                <PersonRoundedIcon />
+                <ListItemText primary={isUserLoading ? userInfo.userInfo.email : ''} />
+              </ListItemButton>
+            </ListItem>
+            {
+              sites.map((site, index) => (
+                <ListItem
+                key={`menu-site-${site.id}`}
+                title={site.address1}
+                data-index={index}
+                selected={curIndex === index}
+                onClick={() => onClickSiteList(index, site)}>
+                  <ListItemButton>
+                    <ListItemIcon sx={{left: '0px', minWidth: '20px'}}>
+                      <LocationOnRoundedIcon fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={site.name || 'No Name'}
+                      primaryTypographyProps={{fontSize: '0.8rem'}}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))
+            }
+          </List>
+        </Box>
+        <Box>
+          <Core
+          id={sites[curIndex]?.id ? sites[curIndex].id : null}
+          />
+        </Box>
       </Container>
-      <Container maxWidth="xl" style={{}}>
+      {/* <Container maxWidth="xl" style={{}}>
         <Typography variant="h4" sx={{ mb: 5 }}>
           What???
         </Typography>
@@ -287,7 +306,7 @@ export default function DashboardApp({ setLocale }) {
             />
           </Grid>
         </Grid>
-      </Container>
+      </Container> */}
     </Page>
   );
 }
